@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-test-service1
+spec:
+  selector:
+    app: flask-test-app1
+  ports:
+  - protocol: "TCP"
+    port: 6000
+    targetPort: 5000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-test-app1
+spec:
+  selector:
+    matchLabels:
+      app: flask-test-app1
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: flask-test-app1
+    spec:
+      containers:
+      - name: flask-test-app1
+        image: code.qburst.com:4567/aswin.mullachery/aswin-training-devops:latest
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: IfNotPresent
+      imagePullSecrets: 
+      - name: kubernetes-deploy
