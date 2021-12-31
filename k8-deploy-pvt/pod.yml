@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-private-pod
+spec:
+  containers:
+    - name: private
+      image: docker-registry-a:5000/aswin/flaskapp:v3
+  imagePullSecrets:
+    - name: registrypullsecret
